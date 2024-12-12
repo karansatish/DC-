@@ -1,0 +1,19 @@
+K = 3;
+G1 = 7;
+G2 = 5;
+msg = [1 0 1 1 0];
+trel = poly2trellis(K, [G1 G2]);
+coded = convenc(msg, trel);
+
+coded(1) = ~coded(1);
+coded(2) = ~coded(2);
+
+tblen = length(msg);
+decoded = vitdec(coded, trel, tblen, 'trunc', 'hard');
+ch = biterr(msg, decoded);
+
+if ch == 0
+    disp('The received code is without error');
+else
+    disp('The received code is with error');
+end
