@@ -1,0 +1,27 @@
+clc;
+clear all;
+close all;
+
+n = input('Enter the length of the codeword: ');
+k = input('Enter the message length: ');
+m = input('Enter the message bits: ');
+
+disp('Generate the Generator Sequence');
+G = cyclpoly(n, k, 'max');
+
+disp('Generate the Generator Polynomial');
+g = poly2sym(G);
+
+disp('Encoded bits');
+C = encode(m, n, k, 'cyclic', G);
+
+disp('Decoded bits');
+D = decode(C, n, k, 'cyclic', G);
+
+ch = biterr(m, D);
+
+if ch == 0
+    disp('Message is error free');
+else
+    disp('Message contains error');
+end
