@@ -1,0 +1,45 @@
+n = 7;
+k = 4;
+A = [1 1 1; 1 1 0; 1 0 1; 0 1 1];
+G = [eye(k) A];
+H = [A' eye(n-k)];
+
+msg = [1 1 1 1];
+code = mod(msg * G, 2);
+disp(['Encoded codeword: ', num2str(code)]);
+
+code_with_error = code;
+code_with_error(5) = mod(code_with_error(5) + 1, 2);
+recd = code_with_error;
+disp(['Received codeword with error: ', num2str(recd)]);
+
+syndrome = mod(recd * H', 2);
+disp(['Syndrome: ', num2str(syndrome')]);
+
+error_found = false;
+for ii = 1:n
+    if ~error_found
+        errvect = zeros(1, n);
+        errvect(ii) = 1;
+        search = mod(errvect * H', 2);
+        if isequal(search, syndrome')
+            error_found = true;
+            index = ii;
+        end
+    end
+end
+
+if error_found
+    disp(['Position of error in codeword: ', num2str(index)]);
+else
+    disp('No error detected in the codeword.');
+end
+
+correctedcode = recd;
+if error_found
+    correctedcode(index) = mod(correctedcode(index) + 1, 2);
+end
+disp(['Corrected codeword: ', num2str(correctedcode)]);
+
+msg_decoded = correctedcode(1:k);
+disp(['Decoded message: ', num2str(msg_decoded)]);
