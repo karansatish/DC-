@@ -3,7 +3,7 @@ clc;
 close all;
 symbol=[1 2 3 4 5];
 p=[0.4 0.2 0.2 0.1 0.1];
-[dict,avglen]=huffmandict (symbol,p)
+[dict,avglen]=huffmandict(symbol,p)
 samplecode=dict{5,2}
 %dict{1,:}
 %dict{2,:}
@@ -17,9 +17,9 @@ disp(hcode);
 disp('decoded message');
 disp(hdhsig);
 code_length=length(hcode)
-sum=0
+sum=0;
 for m=1:5
-sum=sum+(p(m)*log2(1/p(m)));
+s  um=sum+(p(m)*log2(1/p(m)));
 end
 disp('sum=');
 disp(sum);
