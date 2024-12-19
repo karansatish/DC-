@@ -3,13 +3,11 @@ k = 4;
 A = [1 1 1; 1 1 0; 1 0 1; 0 1 1];
 G = [eye(k) A];
 H = [A' eye(n-k)];
-
 msg = [1 1 1 1];
 code = mod(msg * G, 2)
 code(5)=~code(5);
 recd=code
 syndrome = mod(recd * H', 2)
-
 find= 0;
 for ii = 1:n
     if ~find
@@ -27,7 +25,5 @@ correctedcode = recd;
 correctedcode(index)=mod(recd(index)+1,2)
 msg_deoded=correctedcode;
 msg_decoded=msg_decoded(1,4)
-
-
 msg_decoded = correctedcode(1:k);
 disp(['Decoded message: ', num2str(msg_decoded)]);
